@@ -53,5 +53,5 @@ const navigateSumbmarine = (useAim: boolean) => {
   return height * distance;
 };
 
-console.log(`2.1: ${navigateSumbmarine(false)}`);
-console.log(`2.2: ${navigateSumbmarine(true)}`);
+export const day02part1 = () => navigateSumbmarine(false);
+export const day02part2 = () => navigateSumbmarine(true);

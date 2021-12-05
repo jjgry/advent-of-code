@@ -26,8 +26,5 @@ const getSlidingWindowIncreases = (windowSize: number) => {
   return numberOfIncreases;
 };
 
-const one = getSlidingWindowIncreases(1);
-const three = getSlidingWindowIncreases(3);
-
-console.log(`1.1: ${one}`);
-console.log(`1.2: ${three}`);
+export const day01part1 = () => getSlidingWindowIncreases(1);
+export const day01part2 = () => getSlidingWindowIncreases(3);

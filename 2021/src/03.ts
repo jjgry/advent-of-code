@@ -2,7 +2,7 @@ import { getFileLines } from "./utils/input";
 
 const lines = getFileLines("03");
 
-const strategyOne = () => {
+export const day03part1 = () => {
   const linelength = lines[0].length;
   let gammaString = "";
   let epsillonString = "";
@@ -37,7 +37,7 @@ const strategyOne = () => {
   return gamma * epsillon;
 };
 
-const strategyTwo = () => {
+export const day03part2 = () => {
   const linelength = lines[0].length;
   const getNum = (more: boolean) => {
     let newLines = lines.slice();
@@ -77,6 +77,3 @@ const strategyTwo = () => {
 
   return oxy * co2;
 };
-
-console.log(`3.1: ${strategyOne()}`);
-console.log(`3.2: ${strategyTwo()}`);
