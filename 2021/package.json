@@ -1,0 +1,21 @@
+{
+  "name": "Advent of Code 2021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.11",
+    "nodemon": "^2.0.15",
+    "tsc-watch": "^4.5.0"
+  },
+  "scripts": {
+    "start": "nodemon",
+    "build": "tsc-watch --onSuccess \"npm run copy-files\"",
+    "copy-files": "cp -r ./src/input/ ./dist/"
+  },
+  "author": "",
+  "license": "ISC"
+}
