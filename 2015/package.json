@@ -1,0 +1,21 @@
+{
+  "name": "advent-of-code-2015",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "^4.6.4"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.31",
+    "nodemon": "^2.0.16",
+    "tsc-watch": "^5.0.3"
+  },
+  "scripts": {
+    "start": "nodemon dist/index.js",
+    "build": "tsc-watch --onSuccess \"npm run copy-files\"",
+    "copy-files": "cp -r ./src/input/ ./dist/"
+  },
+  "author": "",
+  "license": "ISC"
+}
