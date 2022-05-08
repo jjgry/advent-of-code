@@ -48,7 +48,21 @@ export const day06part1 = () => {
 };
 
 export const day06part2 = () => {
-  return 0;
+  const grid: number[][] = new Array(1000)
+    .fill(0)
+    .map(() => new Array(1000).fill(0));
+
+  for (const { command, start, end } of instructions) {
+    const coords = getAllIntermediateCoords(start, end);
+    for (const { x, y } of coords) {
+      grid[x][y] = getNewValuePart2(grid[x][y], command);
+    }
+  }
+
+  const totalBrightness = grid.reduce((accumulator, gridRow) => {
+    return accumulator + gridRow.reduce((a, b) => a + b, 0);
+  }, 0);
+  return totalBrightness;
 };
 
 const getAllIntermediateCoords = (start: Coordinate, end: Coordinate) => {
@@ -72,5 +86,19 @@ const getNewValue = (
       return false;
     case "toggle":
       return !oldValue;
+  }
+};
+
+const getNewValuePart2 = (
+  oldValue: number,
+  command: Instruction["command"]
+): number => {
+  switch (command) {
+    case "turnOn":
+      return oldValue + 1;
+    case "turnOff":
+      return oldValue === 0 ? 0 : oldValue - 1;
+    case "toggle":
+      return oldValue + 2;
   }
 };
