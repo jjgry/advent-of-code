@@ -2,6 +2,32 @@ import { getFileLines } from "./utils/input";
 
 const input = getFileLines("06");
 
+export const day06part1 = () => {
+  const grid = newGrid(false);
+  for (const { command, start, end } of instructions) {
+    for (const { x, y } of getIntermediateCoords(start, end)) {
+      grid[x][y] = getNewValuePart1(grid[x][y], command);
+    }
+  }
+  const numTurnedOn = grid.reduce((accumulator, gridRow) => {
+    return accumulator + gridRow.filter((x) => x).length;
+  }, 0);
+  return numTurnedOn;
+};
+
+export const day06part2 = () => {
+  const grid = newGrid(0);
+  for (const { command, start, end } of instructions) {
+    for (const { x, y } of getIntermediateCoords(start, end)) {
+      grid[x][y] = getNewValuePart2(grid[x][y], command);
+    }
+  }
+  const totalBrightness = grid.reduce((accumulator, gridRow) => {
+    return accumulator + gridRow.reduce((a, b) => a + b, 0);
+  }, 0);
+  return totalBrightness;
+};
+
 type Coordinate = { x: number; y: number };
 
 type Instruction = {
@@ -9,6 +35,9 @@ type Instruction = {
   start: Coordinate;
   end: Coordinate;
 };
+
+const newGrid = <T>(fillValue: T): T[][] =>
+  new Array(1000).fill(fillValue).map(() => new Array(1000).fill(fillValue));
 
 const parseCoord = (stringCoord: string): Coordinate => {
   const coord = stringCoord.split(",").map((numStr) => parseInt(numStr));
@@ -28,44 +57,7 @@ const instructions: Instruction[] = input.map((instructionString) => {
   };
 });
 
-export const day06part1 = () => {
-  const grid: boolean[][] = new Array(1000)
-    .fill(false)
-    .map(() => new Array(1000).fill(false));
-
-  for (const { command, start, end } of instructions) {
-    const coords = getAllIntermediateCoords(start, end);
-    for (const { x, y } of coords) {
-      grid[x][y] = getNewValue(grid[x][y], command);
-    }
-  }
-
-  const numTurnedOn = grid.reduce((accumulator, gridRow) => {
-    return accumulator + gridRow.filter((x) => x).length;
-  }, 0);
-
-  return numTurnedOn;
-};
-
-export const day06part2 = () => {
-  const grid: number[][] = new Array(1000)
-    .fill(0)
-    .map(() => new Array(1000).fill(0));
-
-  for (const { command, start, end } of instructions) {
-    const coords = getAllIntermediateCoords(start, end);
-    for (const { x, y } of coords) {
-      grid[x][y] = getNewValuePart2(grid[x][y], command);
-    }
-  }
-
-  const totalBrightness = grid.reduce((accumulator, gridRow) => {
-    return accumulator + gridRow.reduce((a, b) => a + b, 0);
-  }, 0);
-  return totalBrightness;
-};
-
-const getAllIntermediateCoords = (start: Coordinate, end: Coordinate) => {
+const getIntermediateCoords = (start: Coordinate, end: Coordinate) => {
   const toReturn: Coordinate[] = [];
   for (let x = start.x; x <= end.x; x++) {
     for (let y = start.y; y <= end.y; y++) {
@@ -75,7 +67,7 @@ const getAllIntermediateCoords = (start: Coordinate, end: Coordinate) => {
   return toReturn;
 };
 
-const getNewValue = (
+const getNewValuePart1 = (
   oldValue: boolean,
   command: Instruction["command"]
 ): boolean => {
