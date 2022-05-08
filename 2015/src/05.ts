@@ -11,14 +11,14 @@ export const day05part2 = () => {
 };
 
 const isNicePart1 = (string: string): boolean => {
-  const hasThreeVowels = (string.match(/[aeiou]/g)?.length || 0) >= 3;
-  const hasDoubleLetter = /([a-z])\1/.test(string);
+  const hasThreeVowels = /([aeiou]).*([aeiou]).*([aeiou])/.test(string);
+  const hasDoubleLetter = /(.)\1/.test(string);
   const hasForbiddenPairs = /(ab)|(cd)|(pq)|(xy)/.test(string);
   return hasThreeVowels && hasDoubleLetter && !hasForbiddenPairs;
 };
 
 const isNicePart2 = (string: string): boolean => {
-  const hasPairThatRepeats = /([a-z][a-z])[a-z]*\1/.test(string);
-  const hasOneLetterThatRepeatsAroundAnother = /([a-z])[a-z]\1/.test(string);
+  const hasPairThatRepeats = /(..).*\1/.test(string);
+  const hasOneLetterThatRepeatsAroundAnother = /(.).\1/.test(string);
   return hasPairThatRepeats && hasOneLetterThatRepeatsAroundAnother;
 };
