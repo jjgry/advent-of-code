@@ -26,7 +26,7 @@ func main() {
 	//
 	//
 	// For testing, you can hardcode the day here
-	dayToRun = "1"
+	dayToRun = "2"
 	//
 	//
 	//

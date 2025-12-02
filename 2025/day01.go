@@ -7,11 +7,11 @@ import (
 
 // Receive the input as a slice of strings, one per line
 func day01(input []string) {
-	fmt.Println("Part 1:", part1(input))
-	fmt.Println("Part 2:", part2(input))
+	fmt.Println("Part 1:", day01part1(input))
+	fmt.Println("Part 2:", day01part2(input))
 }
 
-func part1(input []string) int {
+func day01part1(input []string) int {
 	position := 50
 	countOfZeroes := 0
 
@@ -46,7 +46,7 @@ func part1(input []string) int {
 	return countOfZeroes
 }
 
-func part2(input []string) int {
+func day01part2(input []string) int {
 	position := 50
 	countOfZeroes := 0
 
