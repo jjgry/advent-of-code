@@ -26,7 +26,7 @@ func main() {
 	//
 	//
 	// For testing, you can hardcode the day here
-	dayToRun = "3"
+	// dayToRun = "4"
 	//
 	//
 	//
@@ -50,6 +50,8 @@ func main() {
 		day02(splitInput)
 	case "03":
 		day03(splitInput)
+	case "04":
+		day04(splitInput)
 	default:
 		fmt.Println("Day not implemented")
 	}
