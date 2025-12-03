@@ -1,20 +1,22 @@
-package main
+package day02
 
 import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/jjgry/advent-of-code/2025/utils"
 )
 
 // Receive the input as a slice of strings, one per line
-func day02(input []string) {
+func Run(input []string) {
 	ranges := strings.Split(input[0], ",")
 
-	fmt.Println("Part 1:", day02part1(ranges))
-	fmt.Println("Part 2:", day02part2(ranges))
+	fmt.Println("Part 1:", part1(ranges))
+	fmt.Println("Part 2:", part2(ranges))
 }
 
-func day02part1(ranges []string) int {
+func part1(ranges []string) int {
 	var invalidNumbers []int
 
 	for _, arange := range ranges {
@@ -23,10 +25,10 @@ func day02part1(ranges []string) int {
 		rangeEndStr := rangeEnds[1]
 
 		rangeStart, err := strconv.Atoi(rangeStartStr)
-		check(err)
+		utils.Check(err)
 
 		rangeEnd, err := strconv.Atoi(rangeEndStr)
-		check(err)
+		utils.Check(err)
 
 		for candidate := rangeStart; candidate <= rangeEnd; candidate++ {
 			candidateString := strconv.Itoa(candidate)
@@ -50,7 +52,7 @@ func day02part1(ranges []string) int {
 	return sum
 }
 
-func day02part2(ranges []string) int {
+func part2(ranges []string) int {
 	var invalidNumbers []int
 
 	for _, arange := range ranges {
@@ -59,10 +61,10 @@ func day02part2(ranges []string) int {
 		rangeEndStr := rangeEnds[1]
 
 		rangeStart, err := strconv.Atoi(rangeStartStr)
-		check(err)
+		utils.Check(err)
 
 		rangeEnd, err := strconv.Atoi(rangeEndStr)
-		check(err)
+		utils.Check(err)
 
 	CandidateLoop:
 		for candidate := rangeStart; candidate <= rangeEnd; candidate++ {

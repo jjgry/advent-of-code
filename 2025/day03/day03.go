@@ -1,26 +1,28 @@
-package main
+package day03
 
 import (
 	"fmt"
 	"math"
 	"strconv"
+
+	"github.com/jjgry/advent-of-code/2025/utils"
 )
 
 // Receive the input as a slice of strings, one per line
-func day03(input []string) {
-	fmt.Println("Part 1:", day03part1(input))
-	fmt.Println("Part 2:", day03part2(input))
+func Run(input []string) {
+	fmt.Println("Part 1:", part1(input))
+	fmt.Println("Part 2:", part2(input))
 }
 
-func day03part1(banks []string) int {
-	return day3fn(banks, 2)
+func part1(input []string) int {
+	return calculateTotalJoltage(input, 2)
 }
 
-func day03part2(banks []string) int {
-	return day3fn(banks, 12)
+func part2(input []string) int {
+	return calculateTotalJoltage(input, 12)
 }
 
-func day3fn(banks []string, numberOfBatteries int) int {
+func calculateTotalJoltage(banks []string, numberOfBatteries int) int {
 	rollingSum := 0
 	for _, bankStr := range banks {
 		// Convert to ints now to make life easier later
@@ -69,7 +71,7 @@ func stringToIntSlice(str string) []int {
 	intSlice := make([]int, len(str))
 	for idx, char := range str {
 		intVal, err := strconv.Atoi(string(char))
-		check(err)
+		utils.Check(err)
 		intSlice[idx] = intVal
 	}
 	return intSlice

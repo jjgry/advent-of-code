@@ -1,14 +1,14 @@
-package main
+package utils
 
 import "strings"
 
-func check(e error) {
+func Check(e error) {
 	if e != nil {
 		panic(e)
 	}
 }
 
-func splitLines(input []byte) []string {
+func SplitLines(input []byte) []string {
 	myString := string(input[:])
 	return strings.Split(myString, "\r\n")
 }

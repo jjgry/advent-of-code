@@ -5,6 +5,12 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/jjgry/advent-of-code/2025/day01"
+	"github.com/jjgry/advent-of-code/2025/day02"
+	"github.com/jjgry/advent-of-code/2025/day03"
+	"github.com/jjgry/advent-of-code/2025/day04"
+	"github.com/jjgry/advent-of-code/2025/utils"
 )
 
 func main() {
@@ -29,7 +35,6 @@ func main() {
 	// dayToRun = "4"
 	//
 	//
-	//
 
 	// Add leading zero if needed
 	dayToRunWithLeadingZero := fmt.Sprintf("%02s", dayToRun)
@@ -39,19 +44,19 @@ func main() {
 	fmt.Println("Using input file:", inputFileName)
 
 	data, err := os.ReadFile(inputFileName)
-	check(err)
+	utils.Check(err)
 
-	splitInput := splitLines(data)
+	input := utils.SplitLines(data)
 
 	switch dayToRunWithLeadingZero {
 	case "01":
-		day01(splitInput)
+		day01.Run(input)
 	case "02":
-		day02(splitInput)
+		day02.Run(input)
 	case "03":
-		day03(splitInput)
+		day03.Run(input)
 	case "04":
-		day04(splitInput)
+		day04.Run(input)
 	default:
 		fmt.Println("Day not implemented")
 	}

@@ -1,11 +1,11 @@
-package main
+package day04
 
 import (
 	"fmt"
 )
 
 // Receive the input as a slice of strings, one per line
-func day04(input []string) {
+func Run(input []string) {
 	fmt.Println("Part 1:", day04part1(input))
 	fmt.Println("Part 2:", day04part2(input))
 }
