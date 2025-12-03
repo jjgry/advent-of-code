@@ -22,18 +22,14 @@ func day03part2(banks []string) int {
 
 func day3fn(banks []string, numberOfBatteries int) int {
 	rollingSum := 0
-	for _, bank := range banks {
-		// Convert the string into an array of ints
-		bankInts := make([]int, len(bank))
-		for idx, val := range bank {
-			intVal, err := strconv.Atoi(string(val))
-			check(err)
-			bankInts[idx] = intVal
-		}
+	for _, bankStr := range banks {
+		// Convert to ints now to make life easier later
+		bankInts := stringToIntSlice(bankStr)
 
-		selectedBatteries := recusivelySelectBatteries(numberOfBatteries, bankInts)
+		// Find the batteries we need to use
+		selectedBatteries := selectBatteries(numberOfBatteries, bankInts)
 
-		// Sum up our numbers to calculate the joltage
+		// Sum up our battery joltages to calculate the joltage
 		// Why doesn't Go have inbuilt integer exponentiation!
 		joltage := 0
 		for idx, val := range selectedBatteries {
@@ -45,27 +41,36 @@ func day3fn(banks []string, numberOfBatteries int) int {
 	return rollingSum
 }
 
-func recusivelySelectBatteries(numberOfBatteriesToFind int, bankValue []int) []int {
-	var selectedIndex int
-TargetNumberLoop:
-	for targetNumber := 9; targetNumber >= 1; targetNumber-- {
-		for idx := 0; idx <= len(bankValue)-numberOfBatteriesToFind; idx++ {
-			if bankValue[idx] == targetNumber {
-				// Found our first number
-				selectedIndex = idx
-				break TargetNumberLoop
+func selectBatteries(numBatteriesToFind int, bank []int) []int {
+	selectedIdx := findNextBatteryIdx(numBatteriesToFind, bank)
+	selectedBattery := []int{bank[selectedIdx]}
+
+	if numBatteriesToFind == 1 {
+		return selectedBattery
+	} else {
+		return append(selectedBattery, selectBatteries(numBatteriesToFind-1, bank[selectedIdx+1:])...)
+	}
+}
+
+func findNextBatteryIdx(numBatteriesToFind int, bank []int) int {
+	// Only search a subsection of the bank (we need to leave enough batteries for later steps)
+	bankToSearch := bank[:len(bank)-numBatteriesToFind+1]
+	for target := 9; target >= 1; target-- {
+		for idx, joltage := range bankToSearch {
+			if joltage == target {
+				return idx
 			}
 		}
 	}
+	panic("Could not find a next battery")
+}
 
-	currentSelection := []int{bankValue[selectedIndex]}
-
-	// If we're looking for the last number, return an array with just that value
-	if numberOfBatteriesToFind == 1 {
-		return currentSelection
+func stringToIntSlice(str string) []int {
+	intSlice := make([]int, len(str))
+	for idx, char := range str {
+		intVal, err := strconv.Atoi(string(char))
+		check(err)
+		intSlice[idx] = intVal
 	}
-
-	// Otherwise find the rest of the array and concatenate it together
-	recursiveSelection := recusivelySelectBatteries(numberOfBatteriesToFind-1, bankValue[selectedIndex+1:])
-	return append(currentSelection, recursiveSelection...)
+	return intSlice
 }
