@@ -2,27 +2,30 @@ package day04
 
 import (
 	"fmt"
-	"strings"
 )
 
 // Receive the input as a slice of strings, one per line
 func Run(input []string) {
-	fmt.Println("Part 1:", part1(input))
-	fmt.Println("Part 2:", part2(input))
+	// Convert to 2D grid of runes
+	var grid [][]rune
+	for idx := range len(input) {
+		grid = append(grid, []rune(input[idx]))
+	}
+	fmt.Println("Part 1:", part1(grid))
+	fmt.Println("Part 2:", part2(grid))
 }
 
-func part1(input []string) int {
-	_, count := getNewGridAndCount(input)
+func part1(grid [][]rune) int {
+	_, count := newGridAndCount(grid)
 	return count
 }
 
-func part2(input []string) int {
+func part2(grid [][]rune) int {
 	count := 0
-	grid := input
 	for {
-		newGrid, newCount := getNewGridAndCount(grid)
+		newGrid, newCount := newGridAndCount(grid)
 		if newCount == 0 {
-			break // No more changes to find
+			break // Reached steady state
 		}
 		grid = newGrid
 		count += newCount
@@ -30,64 +33,45 @@ func part2(input []string) int {
 	return count
 }
 
-func getNewGridAndCount(input []string) ([]string, int) {
-	width := len(input[0])
-	height := len(input)
+func newGridAndCount(grid [][]rune) ([][]rune, int) {
+	height := len(grid)
+	width := len(grid[0])
+	newGrid := copy2dSlice(grid)
 	count := 0
-
-	// Initialise a blank grid of dots
-	var newGrid [][]byte
-	for range height {
-		newGrid = append(newGrid, []byte(strings.Repeat(".", width)))
-	}
-
 	for h := range height {
 		for w := range width {
-			if input[h][w] != '@' {
+			if grid[h][w] != '@' {
 				continue // Only interested in locations with rolls of paper
 			}
-
-			countOfNeighbours := 0
-
-			if h != 0 && w != 0 && input[h-1][w-1] == '@' { // Top left
-				countOfNeighbours++
+			neighbourCount := 0
+			for ho := -1; ho <= 1; ho++ {
+				for wo := -1; wo <= 1; wo++ {
+					if ho == 0 && wo == 0 {
+						continue // This is the target cell, not a neighbour
+					}
+					if h+ho < 0 || h+ho >= height || w+wo < 0 || w+wo >= width {
+						continue // We are out of bounds, so no neighbour here
+					}
+					if grid[h+ho][w+wo] == '@' {
+						neighbourCount++
+					}
+				}
 			}
-			if h != 0 && input[h-1][w] == '@' { // Top
-				countOfNeighbours++
-			}
-			if h != 0 && w != width-1 && input[h-1][w+1] == '@' { // Top right
-				countOfNeighbours++
-			}
-			if w != width-1 && input[h][w+1] == '@' { // Right
-				countOfNeighbours++
-			}
-			if h != height-1 && w != width-1 && input[h+1][w+1] == '@' { // Bottom right
-				countOfNeighbours++
-			}
-			if h != height-1 && input[h+1][w] == '@' { // Bottom
-				countOfNeighbours++
-			}
-			if h != height-1 && w != 0 && input[h+1][w-1] == '@' { // Bottom left
-				countOfNeighbours++
-			}
-			if w != 0 && input[h][w-1] == '@' { // Left
-				countOfNeighbours++
-			}
-
-			if countOfNeighbours < 4 {
+			if neighbourCount < 4 {
 				count++
 				newGrid[h][w] = 'x'
-			} else {
-				newGrid[h][w] = '@'
 			}
 		}
 	}
+	return newGrid, count
+}
 
-	var stringNewGrid []string
-	// Convert [][]byte back to []string
-	for _, bytearr := range newGrid {
-		stringNewGrid = append(stringNewGrid, string(bytearr))
+func copy2dSlice(grid [][]rune) [][]rune {
+	var gridCopy [][]rune
+	for _, row := range grid {
+		rowCopy := make([]rune, len(row))
+		copy(rowCopy, row)
+		gridCopy = append(gridCopy, rowCopy)
 	}
-
-	return stringNewGrid, count
+	return gridCopy
 }
