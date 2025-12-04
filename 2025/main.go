@@ -10,6 +10,7 @@ import (
 	"github.com/jjgry/advent-of-code/2025/day02"
 	"github.com/jjgry/advent-of-code/2025/day03"
 	"github.com/jjgry/advent-of-code/2025/day04"
+	"github.com/jjgry/advent-of-code/2025/day05"
 	"github.com/jjgry/advent-of-code/2025/utils"
 )
 
@@ -58,6 +59,8 @@ func main() {
 		day03.Run(input)
 	case "04":
 		day04.Run(input)
+	case "05":
+		day05.Run(input)
 	default:
 		fmt.Println("Day not implemented")
 	}
