@@ -98,8 +98,6 @@ func part2(ranges []string) int {
 
 		}
 	}
-	fmt.Println(invalidNumbers)
-
 	sum := 0
 	for _, invalidNumber := range invalidNumbers {
 		sum += invalidNumber
