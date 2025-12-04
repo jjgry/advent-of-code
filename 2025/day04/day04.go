@@ -12,32 +12,27 @@ func Run(input []string) {
 }
 
 func part1(input []string) int {
-	_, count := helper(input)
+	_, count := getNewGridAndCount(input)
 	return count
 }
 
 func part2(input []string) int {
-	currentCount := 0
-	currentGrid := input
+	count := 0
+	grid := input
 	for {
-		newGrid, count := helper(currentGrid)
-		if count == 0 {
+		newGrid, newCount := getNewGridAndCount(grid)
+		if newCount == 0 {
 			break // No more changes to find
 		}
-		currentGrid = newGrid
-		currentCount += count
-		for _, x := range newGrid {
-			fmt.Println(x)
-		}
-		fmt.Println()
+		grid = newGrid
+		count += newCount
 	}
-	return currentCount
+	return count
 }
 
-func helper(input []string) ([]string, int) {
+func getNewGridAndCount(input []string) ([]string, int) {
 	width := len(input[0])
 	height := len(input)
-
 	count := 0
 
 	// Initialise a blank grid of dots
@@ -48,50 +43,34 @@ func helper(input []string) ([]string, int) {
 
 	for h := range height {
 		for w := range width {
-			// Only interested in locations with rolls of paper
 			if input[h][w] != '@' {
-				continue
+				continue // Only interested in locations with rolls of paper
 			}
 
 			countOfNeighbours := 0
 
-			// Top left
-			if h != 0 && w != 0 && input[h-1][w-1] == '@' {
+			if h != 0 && w != 0 && input[h-1][w-1] == '@' { // Top left
 				countOfNeighbours++
 			}
-
-			// Top
-			if h != 0 && input[h-1][w] == '@' {
+			if h != 0 && input[h-1][w] == '@' { // Top
 				countOfNeighbours++
 			}
-
-			// Top right
-			if h != 0 && w != width-1 && input[h-1][w+1] == '@' {
+			if h != 0 && w != width-1 && input[h-1][w+1] == '@' { // Top right
 				countOfNeighbours++
 			}
-
-			// Right
-			if w != width-1 && input[h][w+1] == '@' {
+			if w != width-1 && input[h][w+1] == '@' { // Right
 				countOfNeighbours++
 			}
-
-			// Bottom right
-			if h != height-1 && w != width-1 && input[h+1][w+1] == '@' {
+			if h != height-1 && w != width-1 && input[h+1][w+1] == '@' { // Bottom right
 				countOfNeighbours++
 			}
-
-			// Bottom
-			if h != height-1 && input[h+1][w] == '@' {
+			if h != height-1 && input[h+1][w] == '@' { // Bottom
 				countOfNeighbours++
 			}
-
-			// Bottom left
-			if h != height-1 && w != 0 && input[h+1][w-1] == '@' {
+			if h != height-1 && w != 0 && input[h+1][w-1] == '@' { // Bottom left
 				countOfNeighbours++
 			}
-
-			// Left
-			if w != 0 && input[h][w-1] == '@' {
+			if w != 0 && input[h][w-1] == '@' { // Left
 				countOfNeighbours++
 			}
 
