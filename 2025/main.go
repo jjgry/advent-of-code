@@ -32,7 +32,7 @@ func main() {
 	//
 	//
 	// For testing, you can hardcode the day here
-	// dayToRun = "4"
+	// dayToRun = "1"
 	//
 	//
 
@@ -48,6 +48,7 @@ func main() {
 
 	input := utils.SplitLines(data)
 
+	timeStart := time.Now()
 	switch dayToRunWithLeadingZero {
 	case "01":
 		day01.Run(input)
@@ -60,4 +61,5 @@ func main() {
 	default:
 		fmt.Println("Day not implemented")
 	}
+	fmt.Println("Time taken:", time.Since(timeStart).String())
 }
