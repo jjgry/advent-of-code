@@ -1,26 +1,14 @@
 package day04
 
-import (
-	"fmt"
-)
+type Input []string
 
-// Receive the input as a slice of strings, one per line
-func Run(input []string) {
-	// Convert to 2D grid of runes
-	var grid [][]rune
-	for idx := range len(input) {
-		grid = append(grid, []rune(input[idx]))
-	}
-	fmt.Println("Part 1:", part1(grid))
-	fmt.Println("Part 2:", part2(grid))
-}
-
-func part1(grid [][]rune) (count int) {
-	_, count = newGridAndCount(grid)
+func (input Input) Part1() (count int) {
+	_, count = newGridAndCount(convertToRuneSlice(input))
 	return
 }
 
-func part2(grid [][]rune) (count int) {
+func (input Input) Part2() (count int) {
+	grid := convertToRuneSlice(input)
 	for {
 		newGrid, newCount := newGridAndCount(grid)
 		if newCount == 0 {
@@ -69,6 +57,13 @@ func copy2dSlice(grid [][]rune) (gridCopy [][]rune) {
 		rowCopy := make([]rune, len(row))
 		copy(rowCopy, row)
 		gridCopy = append(gridCopy, rowCopy)
+	}
+	return
+}
+
+func convertToRuneSlice(input Input) (grid [][]rune) {
+	for idx := range len(input) {
+		grid = append(grid, []rune(input[idx]))
 	}
 	return
 }

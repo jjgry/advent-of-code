@@ -1,24 +1,19 @@
 package day03
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 
 	"github.com/jjgry/advent-of-code/2025/utils"
 )
 
-// Receive the input as a slice of strings, one per line
-func Run(input []string) {
-	fmt.Println("Part 1:", part1(input))
-	fmt.Println("Part 2:", part2(input))
-}
+type Input []string
 
-func part1(input []string) int {
+func (input Input) Part1() int {
 	return calculateTotalJoltage(input, 2)
 }
 
-func part2(input []string) int {
+func (input Input) Part2() int {
 	return calculateTotalJoltage(input, 12)
 }
 

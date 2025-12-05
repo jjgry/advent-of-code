@@ -1,20 +1,15 @@
 package day05
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/jjgry/advent-of-code/2025/utils"
 )
 
-// Receive the input as a slice of strings, one per line
-func Run(input []string) {
-	fmt.Println("Part 1:", part1(input))
-	fmt.Println("Part 2:", part2(input))
-}
+type Input []string
 
-func part1(input []string) (count int) {
+func (input Input) Part1() (count int) {
 	ids, availables := splitIdsAndAvailable(input)
 	for _, available := range availables {
 		for _, id := range ids {
@@ -27,7 +22,7 @@ func part1(input []string) (count int) {
 	return
 }
 
-func part2(input []string) (count int) {
+func (input Input) Part2() (count int) {
 	ranges, _ := splitIdsAndAvailable(input)
 	for foundMerge := true; foundMerge; {
 		foundMerge = false

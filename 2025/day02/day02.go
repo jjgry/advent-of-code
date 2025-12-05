@@ -1,22 +1,15 @@
 package day02
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/jjgry/advent-of-code/2025/utils"
 )
 
-// Receive the input as a slice of strings, one per line
-func Run(input []string) {
-	ranges := strings.Split(input[0], ",")
+type Input []string
 
-	fmt.Println("Part 1:", part1(ranges))
-	fmt.Println("Part 2:", part2(ranges))
-}
-
-func part1(ranges []string) int {
+func (ranges Input) Part1() int {
 	var invalidNumbers []int
 
 	for _, arange := range ranges {
@@ -52,7 +45,7 @@ func part1(ranges []string) int {
 	return sum
 }
 
-func part2(ranges []string) int {
+func (ranges Input) Part2() int {
 	var invalidNumbers []int
 
 	for _, arange := range ranges {

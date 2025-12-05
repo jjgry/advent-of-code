@@ -1,4 +1,4 @@
-package day06
+package day07
 
 type Input []string
 
