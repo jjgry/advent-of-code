@@ -18,8 +18,6 @@ func part1(input []string) (count int) {
 	ids, availables := splitIdsAndAvailable(input)
 	for _, available := range availables {
 		for _, id := range ids {
-			available, err := strconv.Atoi(available)
-			utils.Check(err)
 			if available >= id.start && available <= id.end {
 				count++
 				break
@@ -31,32 +29,29 @@ func part1(input []string) (count int) {
 
 func part2(input []string) (count int) {
 	ranges, _ := splitIdsAndAvailable(input)
-	// Loop until we no longer find any merges to make changes
-	for found := true; found; {
-		found = false
-		// Loop over all combinations where i < j
-		for i := 0; i < len(ranges)-1; i++ {
-			for j := i + 1; j < len(ranges); j++ {
+	for foundMerge := true; foundMerge; {
+		foundMerge = false
+		// Loop over all combinations of i and j and merge wherever possible
+		for i := 0; i < len(ranges); i++ {
+			for j := 0; j < len(ranges); j++ {
+				if i == j {
+					continue
+				}
 				if ranges[j].start <= ranges[i].start && ranges[j].end >= ranges[i].end {
-					// Remove I
+					// J emcompasses I, remove I
 					ranges = append(ranges[:i], ranges[i+1:]...)
-					found = true
-				} else if ranges[i].start <= ranges[j].start && ranges[i].end >= ranges[j].end {
-					// Remove J
-					ranges = append(ranges[:j], ranges[j+1:]...)
-					found = true
+					foundMerge = true
 				} else if ranges[i].end >= ranges[j].start && ranges[i].start <= ranges[j].start && ranges[i].end <= ranges[j].end {
-					// Create a new element and remove I and J
+					// End of I overlaps with start of J, merge the two
 					ranges = append(ranges, Range{ranges[i].start, ranges[j].end})
-					ranges = append(ranges[:i], ranges[i+1:]...)
-					ranges = append(ranges[:j-1], ranges[j:]...)
-					found = true
-				} else if ranges[j].end >= ranges[i].start && ranges[j].start <= ranges[i].start && ranges[j].end <= ranges[i].end {
-					// Create a new element and remove I and J
-					ranges = append(ranges, Range{ranges[j].start, ranges[i].end})
-					ranges = append(ranges[:i], ranges[i+1:]...)
-					ranges = append(ranges[:j-1], ranges[j:]...)
-					found = true
+					if i < j {
+						ranges = append(ranges[:i], ranges[i+1:]...)
+						ranges = append(ranges[:j-1], ranges[j:]...)
+					} else {
+						ranges = append(ranges[:j], ranges[j+1:]...)
+						ranges = append(ranges[:i-1], ranges[i:]...)
+					}
+					foundMerge = true
 				}
 			}
 		}
@@ -72,17 +67,16 @@ type Range struct {
 	end   int
 }
 
-func splitIdsAndAvailable(input []string) (ranges []Range, availableLines []string) {
-	for i, line := range input {
+func splitIdsAndAvailable(input []string) (ranges []Range, available []int) {
+	var splitIdx int
+	for idx, line := range input {
 		if line == "" {
-			return extractRanges(input[:i]), input[i+1:]
+			splitIdx = idx
+			break
 		}
 	}
-	return
-}
-
-func extractRanges(idLines []string) (ranges []Range) {
-	for _, id := range idLines {
+	// Extract ranges
+	for _, id := range input[:splitIdx] {
 		vals := strings.Split(id, "-")
 		startRange, err := strconv.Atoi(vals[0])
 		utils.Check(err)
@@ -90,5 +84,12 @@ func extractRanges(idLines []string) (ranges []Range) {
 		utils.Check(err)
 		ranges = append(ranges, Range{startRange, endRange})
 	}
+	// Extract available
+	for _, strVal := range input[splitIdx+1:] {
+		intVal, err := strconv.Atoi(strVal)
+		utils.Check(err)
+		available = append(available, intVal)
+	}
 	return
+
 }
